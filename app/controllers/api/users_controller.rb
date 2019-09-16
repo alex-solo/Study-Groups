@@ -50,8 +50,16 @@ class Api::UsersController < ApplicationController
   def update
     user = User.find(params[:id])
 
+    if params[:groups]
+      user.groups = params[:groups].map do |group|
+        Group.find_by_name(group)
+      end
+
+      
+    end
+
     if user.update(user_params)
-      render json: user
+      render json: user, include: {groups: {only: :name}}
     else
       render json: {status: "ERROR", message: "User not updated", data: user}, status: :unprocessable_entity
     end

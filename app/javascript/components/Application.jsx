@@ -55,6 +55,46 @@ class Application extends React.Component {
     });
   };
 
+  deleteUser = id => {
+    const newUsers = this.state.users.filter(user => user.id !== id);
+    this.setState({
+      users: newUsers
+    });
+  };
+
+  handleSaveClick = (id, name, email, groups) => {
+    let body = JSON.stringify({
+      user: { name: name, email: email },
+      groups: groups
+    });
+    fetch(`/api/users/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: body
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(user => {
+        this.updateUser(user);
+      });
+  };
+
+  updateUser = user => {
+    let newUsers = this.state.users.map(u => {
+      if (u.id !== user.id) {
+        return u;
+      } else {
+        return user;
+      }
+    });
+    this.setState({
+      users: newUsers
+    });
+  };
+
   render() {
     const { users, groups } = this.state;
     const groupNames = groups.map(group => group.name);
@@ -70,6 +110,8 @@ class Application extends React.Component {
                 users={users}
                 groupNames={groupNames}
                 onFormSubmit={this.handleFormSubmit}
+                deleteUser={this.deleteUser}
+                onSaveClick={this.handleSaveClick}
               />
             )}
           />

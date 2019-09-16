@@ -15,12 +15,13 @@ class ToggleableUserForm extends React.Component {
   };
 
   render() {
-    if (this.state.isOpen) {
+    if (this.state.isOpen || this.props.isEditable) {
       return (
         <UserForm
           onFormClose={this.handleFormClose}
           groupNames={this.props.groupNames}
           onFormSubmit={this.props.onFormSubmit}
+          isEditable={this.props.isEditable}
         />
       );
     } else {

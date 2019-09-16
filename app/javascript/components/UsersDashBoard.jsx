@@ -1,8 +1,19 @@
 import React from "react";
-import UsersTable from "./UsersTable";
+import EditableUsersList from "./EditableUsersList";
 import ToggleableUserForm from "./forms/ToggleableUserForm";
 
 class UsersDashBoard extends React.Component {
+  handleDeleteClick = id => {
+    fetch(`/api/users/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(response => {
+      this.props.deleteUser(id);
+    });
+  };
+
   render() {
     return (
       <div>
@@ -15,7 +26,12 @@ class UsersDashBoard extends React.Component {
           </div>
           <div className="flex-large">
             <h2>View Users</h2>
-            <UsersTable users={this.props.users} />
+            <EditableUsersList
+              users={this.props.users}
+              groupNames={this.props.groupNames}
+              onDeleteClick={this.handleDeleteClick}
+              onSaveClick={this.props.onSaveClick}
+            />
           </div>
         </div>
       </div>

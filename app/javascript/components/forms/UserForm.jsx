@@ -26,9 +26,6 @@ class UserForm extends React.Component {
   handleFormSubmit = e => {
     e.preventDefault();
     const { name, email, groups } = this.state;
-    console.log(name);
-    console.log(email);
-    console.log(groups);
     this.props.onFormSubmit(name, email, groups);
     this.setState({
       name: "",
@@ -38,7 +35,6 @@ class UserForm extends React.Component {
   };
 
   render() {
-    const submitText = this.props.id ? "Update" : "Create";
     const groupNames = this.props.groupNames.map(groupName => {
       return <option value={groupName}>{groupName}</option>;
     });
@@ -75,7 +71,7 @@ class UserForm extends React.Component {
           {groupNames}
         </select>
 
-        <button onClick={this.handleFormSubmit}>{submitText}</button>
+        <button onClick={this.handleFormSubmit}>Create</button>
         <button className="cancel" onClick={this.props.onFormClose}>
           Cancel
         </button>
