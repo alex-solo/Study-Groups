@@ -20,6 +20,7 @@ class ToggleableGroupForm extends React.Component {
         <GroupForm
           onFormClose={this.handleFormClose}
           groupNames={this.props.groupNames}
+          onFormSubmit={this.props.onFormSubmit}
         />
       );
     } else {

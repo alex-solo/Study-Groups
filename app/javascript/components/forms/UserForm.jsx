@@ -38,6 +38,8 @@ class UserForm extends React.Component {
     const groupNames = this.props.groupNames.map(groupName => {
       return <option value={groupName}>{groupName}</option>;
     });
+    const { name, email, groups } = this.state;
+    const isEnabled = name.length > 0 && email.length > 0;
     return (
       <form>
         <h1>Add user</h1>
@@ -47,7 +49,7 @@ class UserForm extends React.Component {
           id="name"
           type="text"
           name="name"
-          value={this.state.name}
+          value={name}
           onChange={this.handleNameChange}
         />
 
@@ -56,22 +58,24 @@ class UserForm extends React.Component {
           id="email"
           type="text"
           name="email"
-          value={this.state.email}
+          value={email}
           onChange={this.handleEmailChange}
         />
 
-        <label for="group-select">Select one or more groups:</label>
+        <label for="group-select">Available groups:</label>
         <select
           name="groups"
           id="group-select"
-          value={this.state.groups}
+          value={groups}
           onChange={this.handleGroupsChange}
           multiple
         >
           {groupNames}
         </select>
 
-        <button onClick={this.handleFormSubmit}>Create</button>
+        <button disabled={!isEnabled} onClick={this.handleFormSubmit}>
+          Create
+        </button>
         <button className="cancel" onClick={this.props.onFormClose}>
           Cancel
         </button>

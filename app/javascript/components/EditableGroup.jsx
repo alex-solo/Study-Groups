@@ -1,8 +1,8 @@
 import React from "react";
-import User from "./User";
-import UserEditForm from "./forms/UserEditForm";
+import Group from "./Group";
+import GroupEditForm from "./forms/GroupEditForm";
 
-class EditableUser extends React.Component {
+class EditableGroup extends React.Component {
   state = {
     isEditing: false
   };
@@ -15,8 +15,8 @@ class EditableUser extends React.Component {
     this.closeForm();
   };
 
-  handleSaveClick = (id, name, email, groups) => {
-    this.props.onSaveClick(id, name, email, groups);
+  handleSaveClick = (id, name, description) => {
+    this.props.onSaveClick(id, name, description);
     this.setState({ isEditing: false });
   };
 
@@ -29,32 +29,32 @@ class EditableUser extends React.Component {
   };
 
   render() {
-    const { id, name, email, userGroups } = this.props;
+    const { id, name, description, count } = this.props;
     if (this.state.isEditing) {
       return (
-        <UserEditForm
+        <GroupEditForm
           id={id}
           name={name}
-          email={email}
-          userGroups={userGroups}
-          allGroups={this.props.allGroups}
-          onSaveClick={this.handleSaveClick}
+          count={count}
+          description={description}
           onCancelClick={this.handleCancelClick}
+          onSaveClick={this.handleSaveClick}
         />
       );
     } else {
       return (
-        <User
+        <Group
           id={id}
           name={name}
-          email={email}
-          userGroups={userGroups}
+          description={description}
+          count={count}
           onDeleteClick={this.props.onDeleteClick}
           onEditClick={this.handleEditClick}
+          onCancelClick={this.handleCancelClick}
         />
       );
     }
   }
 }
 
-export default EditableUser;
+export default EditableGroup;

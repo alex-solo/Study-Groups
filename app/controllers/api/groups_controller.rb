@@ -2,8 +2,8 @@ class Api::GroupsController < ApplicationController
   skip_before_action :verify_authenticity_token
   # GET api/groups
   def index
-    groups = Group.all
-    render json: groups
+    groups = Group.all.includes(:users)
+    render json: groups, include: :users
   end
   
   # GET api/groups/:id
@@ -20,7 +20,7 @@ class Api::GroupsController < ApplicationController
     group = Group.new(group_params)
   
     if group.save
-      render json: group
+      render json: group, include: :users
     else
       render json: {status: "ERROR", message: "Group not saved", data: group.errors}, status: :unprocessable_entity
     end
@@ -44,7 +44,7 @@ class Api::GroupsController < ApplicationController
     group = Group.find(params[:id])
 
     if group.update(group_params)
-      render json: group
+      render json: group, include: :users
     else
       render json: {status: "ERROR", message: "Group not updated", data: group}, status: :unprocessable_entity
     end
