@@ -1,4 +1,5 @@
 import React from "react";
+import Checkbox from "./Checkbox";
 
 class UserForm extends React.Component {
   state = {
@@ -27,6 +28,7 @@ class UserForm extends React.Component {
     e.preventDefault();
     const { name, email, groups } = this.state;
     this.props.onFormSubmit(name, email, groups);
+    this.props.onFormClose();
     this.setState({
       name: "",
       email: "",
@@ -34,9 +36,27 @@ class UserForm extends React.Component {
     });
   };
 
+  handleCheckboxChange = (e, label) => {
+    if (e.target.checked) {
+      this.setState({
+        groups: this.state.groups.concat(label)
+      });
+    } else {
+      this.setState({
+        groups: this.state.groups.filter(group => group !== label)
+      });
+    }
+  };
+
   render() {
     const groupNames = this.props.groupNames.map(groupName => {
-      return <option value={groupName}>{groupName}</option>;
+      return (
+        <Checkbox
+          key={groupName}
+          label={groupName}
+          onCheckboxChange={this.handleCheckboxChange}
+        />
+      );
     });
     const { name, email, groups } = this.state;
     const isEnabled = name.length > 0 && email.length > 0;
@@ -62,16 +82,8 @@ class UserForm extends React.Component {
           onChange={this.handleEmailChange}
         />
 
-        <label for="group-select">Available groups:</label>
-        <select
-          name="groups"
-          id="group-select"
-          value={groups}
-          onChange={this.handleGroupsChange}
-          multiple
-        >
-          {groupNames}
-        </select>
+        <h4>Available groups:</h4>
+        {groupNames}
 
         <button disabled={!isEnabled} onClick={this.handleFormSubmit}>
           Create

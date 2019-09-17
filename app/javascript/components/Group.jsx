@@ -9,12 +9,6 @@ class Group extends React.Component {
     this.props.onEditClick(this.props.id);
   };
 
-  componentDidUpdate = prevProps => {
-    if (this.props.count !== prevProps.count) {
-      this.forceUpdate();
-    }
-  };
-
   render() {
     const { id, name, description, count } = this.props;
     return (

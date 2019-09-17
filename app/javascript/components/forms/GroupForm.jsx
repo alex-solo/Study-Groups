@@ -26,6 +26,7 @@ class GroupForm extends React.Component {
     e.preventDefault();
     const { name, description } = this.state;
     this.props.onFormSubmit(name, description);
+    this.props.onFormClose();
     this.setState({
       name: "",
       description: ""
